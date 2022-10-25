@@ -14,11 +14,55 @@ class TodoList {
     this.addBtnEl = this.inputAreaEl.querySelector('#add-btn');
     this.todoContainerEl = document.getElementById('todo-container');
     this.todoListEl = this.todoContainerEl.querySelector('#todo-list');
+    this.radioAreaEl = this.inputContainerEl.querySelector('#radio-area');
+    this.filterRadioBtnEls = this.radioAreaEl.querySelectorAll(
+      'input[name="filter"]',
+    ); // filter 버튼 3개 모두 탐색
   }
 
   addEvent() {
     this.addBtnEl.addEventListener('click', this.onClickAddBtn.bind(this));
     this.todoListEl.addEventListener('click', this.onClickTodoList.bind(this));
+    this.addRadioBtnEvent();
+  }
+
+  // 할일 상태별 필터링 이벤트
+  addRadioBtnEvent() {
+    for (const filterRadioBtnEl of this.filterRadioBtnEls) {
+      filterRadioBtnEl.addEventListener(
+        'click',
+        this.onClickRadioBtn.bind(this),
+      );
+    }
+  }
+
+  // radio btn 이벤트
+  onClickRadioBtn(event) {
+    const { value } = event.target;
+    console.log(value);
+    this.filterTodo(value);
+  }
+
+  // filtering
+  filterTodo(status) {
+    const todoDivEls = this.todoListEl.querySelectorAll('div.todo');
+    for (const todoDivEl of todoDivEls) {
+      switch (status) {
+        case 'ALL':
+          todoDivEl.style.display = 'flex';
+          break;
+        case 'DONE':
+          todoDivEl.style.display = todoDivEl.classList.contains('done')
+            ? 'flex'
+            : 'none';
+          break;
+        case 'TODO':
+          todoDivEl.style.display = todoDivEl.classList.contains('done')
+            ? 'none'
+            : 'flex';
+          break;
+      }
+    }
   }
 
   // todo btn 이벤트
