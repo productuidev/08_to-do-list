@@ -18,6 +18,25 @@ class TodoList {
 
   addEvent() {
     this.addBtnEl.addEventListener('click', this.onClickAddBtn.bind(this));
+    this.todoListEl.addEventListener('click', this.onClickTodoList.bind(this));
+  }
+
+  onClickTodoList(event) {
+    const { target } = event;
+    const btn = target.closest('button');
+    if (btn.matches('#delete-btn')) {
+      this.deleteTodo(target);
+    }
+  }
+
+  deleteTodo(target) {
+    const todoDiv = target.closest('.todo');
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      todoDiv.addEventListener('transitionend', () => {
+        todoDiv.remove();
+      });
+    }
+    todoDiv.classList.add('delete');
   }
 
   onClickAddBtn() {

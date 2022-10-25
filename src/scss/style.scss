@@ -86,7 +86,7 @@ header {
       color: #202223;
 
       // !
-      // transition: 1s ease;
+      transition: 1s ease;
 
       .todo-item {
         // !
@@ -203,7 +203,7 @@ header {
       font-size: 14px;
       line-height: 22px;
       border-radius: 8px;
-      // transition: 0.2s;
+      transition: 0.2s;
     }
 
     &:checked + label {
