@@ -4,7 +4,43 @@ import '../scss/style.scss';
 class Router {
   routes = [];
 
-  addRoute(url, callback) {}
+  notFoundCallback = () => {};
+
+  addRoute(url, callback) {
+    this.routes.push({
+      url,
+      callback,
+    });
+    return this;
+  }
+
+  checkRoute() {
+    const currentRoute = this.routes.find(
+      route => route.url === window.location.hash,
+    );
+
+    if (!currentRoute) {
+      this.notFoundCallback();
+      return;
+    }
+
+    currentRoute.callback();
+  }
+
+  init() {
+    window.addEventListener('hashchange', this.checkRoute.bind(this));
+
+    if (!window.location.hash) {
+      window.location.hash = '#/';
+    }
+
+    this.checkRoute();
+  }
+
+  setNotFound(callback) {
+    this.notFoundCallback = callback;
+    return this;
+  }
 }
 
 class TodoList {
@@ -182,5 +218,8 @@ class TodoList {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const router = new Router();
   const todoList = new TodoList();
+
+  router.addRoute();
 });
