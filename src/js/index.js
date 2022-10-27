@@ -1,6 +1,12 @@
 import '@fortawesome/fontawesome-free/js/all.min.js';
 import '../scss/style.scss';
 
+class Router {
+  routes = [];
+
+  addRoute(url, callback) {}
+}
+
 class TodoList {
   constructor() {
     this.assignElement();
