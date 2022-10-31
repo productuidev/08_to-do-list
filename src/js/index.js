@@ -85,8 +85,11 @@ class TodoList {
   // radio btn 이벤트
   onClickRadioBtn(event) {
     const { value } = event.target;
-    console.log(value);
-    this.filterTodo(value);
+    // console.log(value);
+    // this.filterTodo(value);
+
+    // 버튼 클릭 시 라우터 url 표시
+    window.location.href = `#/${value.toLowerCase()}`;
   }
 
   // filtering
@@ -222,13 +225,23 @@ class TodoList {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const router = new Router();
+  const router = new Router(); // 인스턴스
   const todoList = new TodoList();
-  const routeCallback = status => {
+
+  // ALL/TODO/DONE 상태 필터
+  // input type='radio' value='상태값' 체크
+  // closure
+  const routeCallback = status => () => {
     todoList.filterTodo(status);
     document.querySelector(
-      `input[type='radio][value='${status}]`,
+      `input[type='radio'][value='${status}']`,
     ).checked = true;
   };
-  router.addRoute();
+  // 상태값에 따른 실행
+  router
+    .addRoute('#/all', routeCallback('ALL'))
+    .addRoute('#/todo', routeCallback('TODO'))
+    .addRoute('#/done', routeCallback('DONE'))
+    .setNotFound(routeCallback('ALL')) // 위 3개 상태에 해당되지 않을 때 모두 다 보여주는 콜백 실행
+    .init(); // hashChange 감지
 });
