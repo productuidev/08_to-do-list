@@ -2,34 +2,38 @@ import '@fortawesome/fontawesome-free/js/all.min.js';
 import '../scss/style.scss';
 
 class Router {
-  routes = [];
-
+  routes = []; // array
   notFoundCallback = () => {};
 
+  // 해당되는 url 진입 시 콜백 실행
   addRoute(url, callback) {
     this.routes.push({
       url,
       callback,
     });
-    return this;
+    return this; // 인스턴스 생성 시 체이닝을 사용할 수 있도록 return (ex : Router.addRoute().addRouter())
   }
 
+  // 해당 라우트가 맞는지 체크
   checkRoute() {
+    // currentRoute는 routes array에서 찾아야 하는 값
     const currentRoute = this.routes.find(
-      route => route.url === window.location.hash,
+      route => route.url === window.location.hash, // 현재 #값과 현재 url을 대조해서 맞는 route를 return
     );
 
+    // 원하는 라우트가 없을 때 처리하는 조건
+    // currentRount가 존재하지 않으면 notFoundCallback 실행
     if (!currentRoute) {
       this.notFoundCallback();
       return;
     }
-
-    currentRoute.callback();
+    currentRoute.callback(); // 맞으면 콜백실행
   }
 
+  // router 초기화
   init() {
     window.addEventListener('hashchange', this.checkRoute.bind(this));
-
+    // 현재 #값이 없는 경우 조건
     if (!window.location.hash) {
       window.location.hash = '#/';
     }
@@ -220,6 +224,11 @@ class TodoList {
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router();
   const todoList = new TodoList();
-
+  const routeCallback = status => {
+    todoList.filterTodo(status);
+    document.querySelector(
+      `input[type='radio][value='${status}]`,
+    ).checked = true;
+  };
   router.addRoute();
 });
