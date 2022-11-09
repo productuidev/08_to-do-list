@@ -69,9 +69,14 @@ class Storage {
 }
 
 class TodoList {
-  constructor() {
+  constructor(storage) {
+    this.initStorage(storage);
     this.assignElement();
     this.addEvent();
+  }
+
+  initStorage(storage) {
+    this.storage = storage;
   }
 
   assignElement() {
@@ -247,7 +252,7 @@ class TodoList {
 
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router(); // 인스턴스
-  const todoList = new TodoList();
+  const todoList = new TodoList(new Storage()); // storage 인스턴스
 
   // ALL/TODO/DONE 상태 필터
   // input type='radio' value='상태값' 체크
