@@ -1,6 +1,5 @@
 import '@fortawesome/fontawesome-free/js/all.min.js';
 import '../scss/style.scss';
-import config from './../../rollup.dev.config';
 
 class Router {
   routes = []; // array
@@ -90,6 +89,16 @@ class TodoList {
     this.filterRadioBtnEls = this.radioAreaEl.querySelectorAll(
       'input[name="filter"]',
     ); // filter 버튼 3개 모두 탐색
+  }
+
+  // 저장된 데이터를 불러오기
+  loadSavedData() {
+    const todosData = this.storage.getTodos();
+    for (const todoData of todosData) {
+      // element 생성
+      const { id, content, status } = todoData;
+      this.createTodoElement();
+    }
   }
 
   addEvent() {
@@ -207,11 +216,12 @@ class TodoList {
     const id = Date.now(); // 현재 시간을 ms 단위로 반환 -> 만드는 시점의 시간마다 달라지므로 unique한 ID로 사용 가능 (데이터 담기)
     this.storage.saveTodo(id, this.todoInpulEl.value);
 
-    this.createTodoElement(this.todoInputEl.value);
+    this.createTodoElement(id, this.todoInputEl.value); // id 파라미터 추가
   }
 
   // todo 동적생성
-  createTodoElement(value) {
+  // 처음 만들었을 때는 value만 받았는데 storage 저장을 위해 id, status도 추가 (새로 생성될 때는 status 값이 없음 = null)
+  createTodoElement(id, value, status = null) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo');
 
