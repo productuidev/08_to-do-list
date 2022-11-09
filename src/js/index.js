@@ -97,7 +97,7 @@ class TodoList {
     for (const todoData of todosData) {
       // element 생성
       const { id, content, status } = todoData;
-      this.createTodoElement();
+      this.createTodoElement(id, content, status);
     }
   }
 
@@ -224,6 +224,10 @@ class TodoList {
   createTodoElement(id, value, status = null) {
     const todoDiv = document.createElement('div');
     todoDiv.classList.add('todo');
+
+    if (status === 'DONE') {
+      todoDiv.classList.add('done');
+    }
 
     const todoContent = document.createElement('input');
     todoContent.value = value; // createTodoElement(this.todoInputEl.value)의 value
