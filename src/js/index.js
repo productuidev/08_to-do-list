@@ -1,5 +1,6 @@
 import '@fortawesome/fontawesome-free/js/all.min.js';
 import '../scss/style.scss';
+import config from './../../rollup.dev.config';
 
 class Router {
   routes = []; // array
@@ -48,14 +49,23 @@ class Router {
 }
 
 // web storage
+// {id, content, status}
 class Storage {
-  saveTodo() {}
+  saveTodo(id, todoContent) {
+    const todosData = this.getTodos();
+    todosData.push({ id, content: todoContent, status: 'TODO' });
+    localStorage.setItem('todos', JSON.stringify(todosData));
+  }
 
   editTodo() {}
 
   deleteTodo() {}
 
-  getTodos() {}
+  getTodos() {
+    return localStorage.get('todos') === null
+      ? []
+      : JSON.parse(localStorage.get('todos'));
+  }
 }
 
 class TodoList {
