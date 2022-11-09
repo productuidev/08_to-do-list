@@ -47,6 +47,17 @@ class Router {
   }
 }
 
+// web storage
+class Storage {
+  saveTodo() {}
+
+  editTodo() {}
+
+  deleteTodo() {}
+
+  getTodos() {}
+}
+
 class TodoList {
   constructor() {
     this.assignElement();
