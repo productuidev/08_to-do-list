@@ -56,7 +56,17 @@ class Storage {
     localStorage.setItem('todos', JSON.stringify(todosData));
   }
 
-  editTodo() {}
+  editTodo(id, todoContent, status = 'TODO') {
+    const todosData = this.getTodos();
+    const todoIndex = todosData.findIndex(todo => todo.id == id);
+    const targetTodoData = todosData[todoIndex];
+    const editedTodoData =
+      todoContent === ''
+        ? { ...targetTodoData, status }
+        : { ...targetTodoData, content: todoContent };
+    todosData.splice(todoIndex, 1, editedTodoData);
+    localStorage.setItem('todos', JSON.stringify(todosData));
+  }
 
   deleteTodo(id) {
     const todosData = this.getTodos();
@@ -206,6 +216,9 @@ class TodoList {
     // 수정된 값 가져오기 (저장된 값을 가져오는 것은 이후 localStorage에서..)
     const todoInputEl = todoDiv.querySelector('input');
     todoInputEl.readOnly = true;
+
+    const { id } = todoDiv.dataset;
+    this.storage.editTodo(id, todoInputEl.value);
   }
 
   // 할일 완료 체크
