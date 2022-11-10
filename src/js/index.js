@@ -225,6 +225,13 @@ class TodoList {
   completeTodo(target) {
     const todoDiv = target.closest('.todo');
     todoDiv.classList.toggle('done');
+
+    const { id } = todoDiv.dataset;
+    this.storage.editTodo(
+      id,
+      '',
+      todoDiv.classList.contains('done') ? 'DONE' : 'TODO',
+    );
   }
 
   // 할일 추가 (onClickAddBtn 누르면 목록에 데이터가 생성되고 있는 지점에 localStorage 데이터를 추가)
