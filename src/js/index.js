@@ -61,9 +61,9 @@ class Storage {
   deleteTodo() {}
 
   getTodos() {
-    return localStorage.get('todos') === null
+    return localStorage.getItem('todos') === null
       ? []
-      : JSON.parse(localStorage.get('todos'));
+      : JSON.parse(localStorage.getItem('todos'));
   }
 }
 
@@ -228,6 +228,8 @@ class TodoList {
     if (status === 'DONE') {
       todoDiv.classList.add('done');
     }
+
+    todoDiv.dataset.id = id; // 나중에 수정할 때 사용할 id 부여
 
     const todoContent = document.createElement('input');
     todoContent.value = value; // createTodoElement(this.todoInputEl.value)의 value
