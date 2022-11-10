@@ -58,7 +58,14 @@ class Storage {
 
   editTodo() {}
 
-  deleteTodo() {}
+  deleteTodo(id) {
+    const todosData = this.getTodos();
+    todosData.splice(
+      todosData.findIndex(todo => todo.id == id),
+      1,
+    );
+    localStorage.setItem('todos', JSON.stringify(todosData));
+  }
 
   getTodos() {
     return localStorage.getItem('todos') === null
@@ -72,6 +79,7 @@ class TodoList {
     this.initStorage(storage);
     this.assignElement();
     this.addEvent();
+    this.loadSavedData();
   }
 
   initStorage(storage) {
@@ -178,6 +186,7 @@ class TodoList {
       });
     }
     todoDiv.classList.add('delete');
+    this.storage.deleteTodo(todoDiv.dataset.id);
   }
 
   // 할일 수정
