@@ -214,7 +214,7 @@ class TodoList {
     }
 
     const id = Date.now(); // 현재 시간을 ms 단위로 반환 -> 만드는 시점의 시간마다 달라지므로 unique한 ID로 사용 가능 (데이터 담기)
-    this.storage.saveTodo(id, this.todoInpulEl.value);
+    this.storage.saveTodo(id, this.todoInputEl.value);
 
     this.createTodoElement(id, this.todoInputEl.value); // id 파라미터 추가
   }
